@@ -88,6 +88,21 @@ namespace autopilot
             return r;
         }
 
+        std::vector<力行ノッチ> 力行ノッチ列(LPCWSTR s) {
+            std::vector<力行ノッチ> values;
+            while (*s != L'\0') {
+                LPWSTR s2;
+                unsigned long value = std::wcstoul(s, &s2, 0);
+                if (s2 == s) {
+                    ++s;
+                    continue;
+                }
+                values.emplace_back(value);
+                s = s2;
+            }
+            return values;
+        }
+
         std::vector<mps2> 加速度列(LPCWSTR s) {
             std::vector<mps2> values;
             while (*s != L'\0') {
@@ -218,6 +233,7 @@ namespace autopilot
         _稼働状態切替順序{
             稼働状態::ato有効, 稼働状態::tascのみ有効, 稼働状態::切},
         _車両長(20),
+        _ノッチ変換表{},
         _加速終了遅延(2.0_s),
         _加速度一覧{},
         _常用最大減速度(3.0_kmphps),
@@ -286,6 +302,15 @@ namespace autopilot
             }
         }
 
+        // ノッチ変換表
+        // _ノッチ変換表.clear();
+        size = GetPrivateProfileStringW(
+            L"power", L"translation", L"", buffer, buffer_size,
+            設定ファイル名);
+        if (0 < size && size < buffer_size - 1) {
+            _ノッチ変換表 = 力行ノッチ列(buffer);
+        }
+
         // 加速終了遅延
         size = GetPrivateProfileStringW(
             L"power", L"offdelay", L"", buffer, buffer_size,
@@ -299,7 +324,7 @@ namespace autopilot
 
         // 力行加速度
         // _加速度一覧.clear();
-        for (auto 設定 : セクション内全設定(設定ファイル名, L"acceleration")) {
+        for (auto &設定 : セクション内全設定(設定ファイル名, L"acceleration")) {
             double 速度 = std::wcstod(設定.first.c_str(), nullptr);
             if (!(速度 >= 0.0)) {
                 continue;
@@ -426,7 +451,7 @@ namespace autopilot
         }
 
         // パネル出力対象
-        for (auto 設定 : セクション内全設定(設定ファイル名, L"panel")) {
+        for (auto &設定 : セクション内全設定(設定ファイル名, L"panel")) {
             try {
                 int index = std::stoi(設定.first);
                 if (index < 0 || 256 <= index) {

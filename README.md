@@ -10,8 +10,8 @@
     - [x] 独自地上子
     - [x] 汎用 ATS プラグインの地上子
     - [x] δ ナックニスタさんの TASC プラグインの地上子
-    - [×] **小田急線向け ATS プラグインの地上子**
-    - [×] **メトロATOプラグインの地上子**
+    - [x] **小田急線向け ATS プラグインの地上子**
+    - [x] **メトロATOプラグインの地上子**
   - [x] 計器パネルへの動作状態の表示
     - [x] ブレーキノッチ
     - [x] 停止位置までの残距離
@@ -39,7 +39,7 @@
 
 ## 動作環境・開発環境
 
-Bve trainsim 5.8.7554.391 および BVE Trainsim 6.0.7554.619 で動作確認しています。BVE4 や OpenBVE のことは知りません。[DetailManager](https://github.com/mikangogo/DetailManager) や [bve-plugin-multiplexer](https://github.com/magicant/bve-plugin-multiplexer) からの使用も可能ですが、他の保安装置プラグインとの同時使用は自己責任でお願いします。
+Bve trainsim 5.8.7554.391 ~~および BVE Trainsim 6.0.7554.619~~ で動作確認しています。BVE4 や OpenBVE のことは知りません。[DetailManager](https://github.com/mikangogo/DetailManager) や [bve-plugin-multiplexer](https://github.com/magicant/bve-plugin-multiplexer) からの使用も可能ですが、他の保安装置プラグインとの同時使用は自己責任でお願いします。
 
 このプラグインを修正・改造する場合は最新の Visual Studio の使用を推奨します。
 
