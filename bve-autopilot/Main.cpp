@@ -252,7 +252,7 @@ namespace autopilot
         // TASC と ATO の出力ノッチをまとめる
         自動制御指令 自動ノッチ = _状態.最大力行ノッチ();
         //if (tasc有効()) {
-        if (出力値[73] == 1 && 出力値[92] != 7 && ((出力値[72] != 1 && 出力値[19] == true) || 出力値[20] == true || 出力値[21] == true || 出力値[41] == true)){//TASCCgS有効、ATO/TASC切換NFBオン、キーは小田急でない
+        if (出力値[73] == 1 && ((出力値[72] != 1 && 出力値[19] == true) || 出力値[20] == true || 出力値[21] == true || 出力値[41] == true || 出力値[35] == true)) {//TASCCgS有効、ATO/TASC切換NFBオン、キーは小田急でない
             自動ノッチ = std::min(自動ノッチ, _tasc.出力ノッチ());
             _ato有効 = false;
             _tasc有効 = true;
@@ -271,7 +271,7 @@ namespace autopilot
             //tasc状態2 = 2;
             //ato有効();
         }
-        if(出力値[73] == 0 || 出力値[92] == 7 || 出力値[92] == 0 || (出力値[19] == false && 出力値[20] == false && 出力値[21] == false && 出力値[41] == false)){//小田急キーorCgS無効or保安装置切
+        if(出力値[73] == 0 || 出力値[92] == 0 || (出力値[19] == false && 出力値[20] == false && 出力値[21] == false && 出力値[41] == false && 出力値[35] == false)) {//小田急キーorCgS無効or保安装置切
             _ato有効 = false;
             _tasc有効 = false;
             //tasc状態2 = 3;

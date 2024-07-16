@@ -92,6 +92,30 @@ namespace autopilot
                 return static_cast<int>(
                     main.tasc状態().出力ノッチ().制動成分().value);
             })},
+                //add
+            {L"tascbrake2", パネル出力対象([](const Main& main) {
+                if (!main.tasc有効() || main.ato有効() || main.ato一時停止中() || main.状態().現在速度() == 0.0_mps || main.tasc状態().出力ノッチ().制動成分().value == 0) {
+                    return 10;
+                }
+                return static_cast<int>(
+                    (main.tasc状態().出力ノッチ().制動成分().value) / 10);
+            })},
+            {L"tascbrake1", パネル出力対象([](const Main& main) {
+                if (!main.tasc有効() || main.ato有効() || main.ato一時停止中() || main.状態().現在速度() == 0.0_mps || main.tasc状態().出力ノッチ().制動成分().value == 0) {
+                    return 10;
+                }
+                return static_cast<int>(
+                    (main.tasc状態().出力ノッチ().制動成分().value) % 10);
+            })},
+            {L"tascstatusE", パネル出力対象([](const Main& main) {
+                if (!main.tasc有効() || main.ato有効() || main.ato一時停止中() || main.状態().現在速度() == 0.0_mps || main.tasc状態().出力ノッチ().制動成分().value == 0) {
+                    return 0;
+                }
+                else {
+                    return 1;
+                }
+            })},
+                //endadd
             {L"tascdistance", パネル出力対象([](const Main &main) {
                 cm 残距離 =
                     main.tasc状態().目標停止位置() - main.状態().現在位置();
@@ -151,7 +175,54 @@ namespace autopilot
                 return static_cast<int>(
                     main.状態().前回自動出力().力行成分().value);
             })},
-            {L"atobrake", パネル出力対象([](const Main &main) {
+                //add
+            { L"atostatusE", パネル出力対象([](const Main& main) {
+                if (!main.ato有効()) {
+                    return 0;
+                }
+                else if ((main.状態().前回自動出力().制動成分().value == 0 || main.状態().現在速度() == 0.0_mps) && main.状態().前回自動出力().力行成分().value == 0)
+                {
+                    return 0;
+                }
+                else if (main.状態().前回自動出力().力行成分().value >= 1) {
+                    return 1;
+                }
+                else {
+                    return 2;
+                }
+            })},
+            {L"atopb2", パネル出力対象([](const Main &main) {
+                if (!main.ato有効()) {
+                    return 10;
+                }
+                else if ((main.状態().前回自動出力().制動成分().value == 0 || main.状態().現在速度() == 0.0_mps) && main.状態().前回自動出力().力行成分().value == 0)
+                {
+                    return 10;
+                }
+                else if (main.状態().前回自動出力().制動成分().value == 0) {
+                    return static_cast<int>(
+                        main.状態().前回自動出力().力行成分().value / 10);
+                }
+                return static_cast<int>(
+                    main.状態().前回自動出力().制動成分().value / 10);
+            })},
+            { L"atopb1", パネル出力対象([](const Main& main) {
+                if (!main.ato有効()) {
+                    return 10;
+                }
+                else if ((main.状態().前回自動出力().制動成分().value == 0 || main.状態().現在速度() == 0.0_mps) && main.状態().前回自動出力().力行成分().value == 0)
+                {
+                    return 10;
+                }
+                else if (main.状態().前回自動出力().制動成分().value == 0) {
+                    return static_cast<int>(
+                        main.状態().前回自動出力().力行成分().value % 10);
+                }
+                return static_cast<int>(
+                    main.状態().前回自動出力().制動成分().value % 10);
+            })},
+                //endadd
+            { L"atobrake", パネル出力対象([](const Main& main) {
                 if (!main.ato有効()) {
                     return 0;
                 }
